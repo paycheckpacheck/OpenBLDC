@@ -13,6 +13,8 @@ IN PROGRESS
 
 ## Project Overview
 
+The goal specifications for this motor driver should be to drive a 40V 10A load per phase. 
+
 This project provides Open Source Hardware and Firmware for a 3-Phase Brushless DC Motor Driver. It aims to be an educational platform for some basic Power Electrionics problems.
 
 To understand how a BLDC motor works, we must understand how a DC motor works. Well, its pretty simple, we apply a voltage and the motor spins. What if we want to have speed control? 
@@ -22,7 +24,9 @@ An N-Channel Inverter is used to take that low power PWM generated from the disc
 
 
 Below is an image of the N-Channel Inverter Developed after expirmental trials using a breadboard:
+
 ![image](https://github.com/user-attachments/assets/25ce9b4f-0bd3-4961-82af-debf6f43ea7e)
+
 In additon to the cooresponding schematic:
 ![image](https://github.com/user-attachments/assets/bb9370cb-dcc5-447f-b111-a4fa37e59ae6)
 
@@ -35,13 +39,15 @@ Hence introducing the need for a bootstrap capacitor and bootstrap diode. These 
 The board has footprints for the 3-pin THT MOSFET package or the D-PACK6 Mosfet footprint.
 
 A BLDC motor driver is just 3 of these. 
+
 ![image](https://github.com/user-attachments/assets/c6c0ecef-3594-4565-935a-c865fe14f61e)
 
 
-The goal specifications for this motor driver should be to drive a 40V 10A load per phase. 
 
 ## Educational Value Added
-This BLDC driver is made out of primitive components.
+This BLDC driver is made out of primitive components. Instead of using a chip or IC which contains the entire BLDC driver, this project provides eduational value with the constraint that everything must be primitive. The current sense is done using a differential instrumentation amplifer made with op amps, transient voltage 
+
+
 ## Tasks
 
 <!-- Your Text Here. You may work with your mentor on this later when they are assigned -->
@@ -50,9 +56,6 @@ This BLDC driver is made out of primitive components.
 
 <!-- Your Text Here. You may work with your mentor on this later when they are assigned -->
 
-## Design Misc
-
-<!-- Your Text Here. You may work with your mentor on this later when they are assigned -->
 
 ## Steps for Documenting Your Design Process
 
