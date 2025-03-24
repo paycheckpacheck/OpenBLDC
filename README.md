@@ -4,6 +4,10 @@ pacheck@vt.edu
 
 Eddie Prichard (Computer Engineering Alum)
 
+New contributors:
+Enrico
+Colton
+
 ## Mentor
 Pacheck Nicholas
 Eddie Prichard
