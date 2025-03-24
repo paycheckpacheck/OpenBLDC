@@ -39,13 +39,16 @@ Hence introducing the need for a bootstrap capacitor and bootstrap diode. These 
 The board has footprints for the 3-pin THT MOSFET package or the D-PACK6 Mosfet footprint.
 
 A BLDC motor driver is just 3 of these. 
-
 ![image](https://github.com/user-attachments/assets/c6c0ecef-3594-4565-935a-c865fe14f61e)
+
+Here is the schem for the driver below.
+![image](https://github.com/user-attachments/assets/5c6f62c9-f1f8-423a-9c4a-01f98086313b)
+
 
 
 
 ## Educational Value Added
-This BLDC driver is made out of primitive components. Instead of using a chip or IC which contains the entire BLDC driver, this project provides eduational value with the constraint that everything must be primitive. The current sense is done using a differential instrumentation amplifer made with op amps, transient voltage 
+This BLDC driver is made out of primitive components. Instead of using a chip or IC which contains the entire BLDC driver, this project provides eduational value with the constraint that everything must be primitive. The current sense is done using a differential instrumentation amplifer made with op amps. Transient voltage supression (TVS) diodes are placed at the switch node with clamp voltage at about 32volts
 
 
 ## Tasks
