@@ -1,10 +1,16 @@
 #include "bldc_driver.hpp"
 
 // Phase class implementation
-Phase::Phase(uint8_t hin, uint8_t sd) : hinPin(hin), sdPin(sd), pwmDuty(0) {
+Phase::Phase(uint8_t hin, uint8_t sd, uint8_t cur) 
+    : hinPin(hin)
+    , sdPin(sd)
+    , currentPin(cur)
+    , pwmDuty(0)
+    , current(0) {
     // Configure pins
     pinMode(hinPin, OUTPUT);
     pinMode(sdPin, OUTPUT);
+    pinMode(currentPin, INPUT);
     disableOutput();
 }
 
@@ -30,17 +36,22 @@ void Phase::release() {
     enableOutput();
 }
 
+uint16_t Phase::readCurrent() {
+    current = analogRead(currentPin);
+    return current;
+}
+
 // BLDCDriver class implementation
-BLDCDriver::BLDCDriver(uint8_t hinA, uint8_t sdA,
-                       uint8_t hinB, uint8_t sdB,
-                       uint8_t hinC, uint8_t sdC)
-    : phaseA(hinA, sdA)
-    , phaseB(hinB, sdB)
-    , phaseC(hinC, sdC)
+BLDCDriver::BLDCDriver(uint8_t hinA, uint8_t sdA, uint8_t curA,
+                       uint8_t hinB, uint8_t sdB, uint8_t curB,
+                       uint8_t hinC, uint8_t sdC, uint8_t curC)
+    : phaseA(hinA, sdA, curA)
+    , phaseB(hinB, sdB, curB)
+    , phaseC(hinC, sdC, curC)
     , currentStep(CommutationStep::STEP1)
     , motorSpeed(0)
-    , currentSense(0)
-    , isRunning(false) {
+    , isRunning(false)
+    , overcurrentThreshold(900) {  // Default threshold, can be adjusted
 }
 
 void BLDCDriver::begin() {
@@ -56,7 +67,10 @@ void BLDCDriver::begin() {
 void BLDCDriver::initADC() {
     // Configure ADC for current sensing
     analogReference(DEFAULT);
-    analogRead(A0); // Dummy read to initialize ADC
+    // Perform dummy reads to initialize ADCs
+    phaseA.readCurrent();
+    phaseB.readCurrent();
+    phaseC.readCurrent();
 }
 
 void BLDCDriver::initPWM() {
@@ -91,16 +105,23 @@ void BLDCDriver::stop() {
     phaseC.disableOutput();
 }
 
-uint16_t BLDCDriver::readCurrent() {
-    // Read current sense ADC
-    currentSense = analogRead(A0);
-    return currentSense;
+BLDCDriver::PhaseCurrent BLDCDriver::getCurrents() {
+    return {
+        phaseA.readCurrent(),
+        phaseB.readCurrent(),
+        phaseC.readCurrent()
+    };
 }
 
 bool BLDCDriver::isOverCurrent() {
-    // Implement your overcurrent protection threshold here
-    const uint16_t OVERCURRENT_THRESHOLD = 900; // Adjust based on your hardware
-    return currentSense > OVERCURRENT_THRESHOLD;
+    auto currents = getCurrents();
+    return (currents.phaseA > overcurrentThreshold ||
+            currents.phaseB > overcurrentThreshold ||
+            currents.phaseC > overcurrentThreshold);
+}
+
+void BLDCDriver::setOvercurrentThreshold(uint16_t threshold) {
+    overcurrentThreshold = threshold;
 }
 
 void BLDCDriver::commutate() {
