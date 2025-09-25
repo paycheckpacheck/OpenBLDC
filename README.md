@@ -4,9 +4,7 @@ pacheck@vt.edu
 
 Eddie Prichard (Computer Engineering Alum)
 
-New contributors:
-Enrico
-Colton
+
 
 ## Mentor
 Pacheck Nicholas
@@ -83,3 +81,4 @@ This BLDC driver is made out of primitive components. Instead of using a chip or
 ## Log
 
 <!-- Your Text Here. You may work with your mentor on this later when they are assigned -->
+
